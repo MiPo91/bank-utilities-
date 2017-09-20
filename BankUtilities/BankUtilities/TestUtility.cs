@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace eKoodi.Utilities.Test
 {
@@ -63,12 +64,10 @@ namespace eKoodi.Utilities.Test
                         bbanComputer = bbanFirst + bbanMid + bbanLast; // compining the parts, BBAN is ready.
                         long.TryParse(bbanComputer, out bbanNumero);
 
-                        Console.WriteLine(bbanNumero);
-                        Console.WriteLine("BBAN is valid.");
+                        Console.WriteLine("BBAN is valid. {0}", bbanNumero);
 
                     } else {
-                        Console.WriteLine(bbanNumero);
-                        Console.WriteLine("BBAN is valid.");
+                        Console.WriteLine("BBAN is valid. {0}", bbanNumero);
                     }
                 } else {
                     Console.WriteLine("Invalid BBAN number.");
@@ -78,7 +77,6 @@ namespace eKoodi.Utilities.Test
                 Console.WriteLine("Invalid BBAN number.");
                 bbanNumero = 0;
             }
-
 
             return bbanNumero;
         }
@@ -92,56 +90,100 @@ namespace eKoodi.Utilities.Test
             decimal  ibanInt;
             decimal.TryParse(ibanString, out ibanInt);
 
-            ibanInt = ibanInt / 97;
-            string remainder = (Math.Floor(ibanInt * 100) / 100).ToString().Split(',')[1]; // jako jäännös 1 liian iso ?
+            int remainder = (int)(ibanInt % 97);
 
-
-            int remainderInt;
-            int.TryParse(remainder, out remainderInt);
-
-            int checkDigit = 98 - remainderInt;
+            int checkDigit = 98 - remainder;
 
             iban = "FI"+checkDigit+bbanString;
 
-            Console.WriteLine("IBAN: {0}, BIC: ",iban);
-            // 159030-776
-            // tulostaa FI3615903000000776
-            // pitäisi  FI3715903000000776
-
+            Console.WriteLine("IBAN: {0} ",iban);
+            // 159030-776      
 
             return iban;
         }
 
         public static string ibanValidator(string userInput) {
             string iban = userInput.Replace(" ","");
+            string bicKey;
+            int bicKeyI;
+            var bicList = new Dictionary<int, string>
+                {
+                    { 405, "HELSFIHH" },
+                    { 497, "HELSFIHH" },
+                    { 717, "BIGKFIH1" },
+                    { 470, "POPFFI22" }, //if
+                    { 479, "POPFFI22" },
+                    { 713, "CITIFIHX" },
+                    { 8, "DABAFIHH" },
+                    { 34, "DABAFIHX" },
+                    { 37, "DNBAFIHX" },
+                    { 31, "HANDFIHH" },
+                    { 799, "HOLVFIHH" },
+                    { 1, "NDEAFIHH" },
+                    { 2, "NDEAFIHH" },
+                    { 5, "OKOYFIHH" },
+                    { 33, "ESSEFIHX" },
+                    { 39, "SBANFIHH" },
+                    { 36, "SBANFIHH" },
+                    { 38, "SWEDFIHH" },
+                    { 400, "ITELFIHH" }, //if
+                    { 6, "AABAFI22" }
+                };
 
             if (iban.Length == 18) {
-                string ibanReplace = iban.Substring(0, 4);
-                iban = iban.Replace(ibanReplace, "");
-                
-                string ibanTransfer = iban + "1518"; //.Replace("FI","1518")
+                string ibanFirst = iban.Substring(0, 4);
+                iban = iban.Replace(ibanFirst, "") + ibanFirst;
+
+                string ibanTransfer = iban.Replace("FI", "1518");
                 decimal ibanChecker;
                 decimal.TryParse(ibanTransfer, out ibanChecker);
 
-                if(ibanChecker / 97 == 1) {
-                    Console.WriteLine("IBAN is valid.");
+                if ((int)(ibanChecker % 97) == 1) { //Valid, FI3715903000000776 
+                    
+                    // Bic key lookup
+                    if (iban[0] == '1' || iban[0] == '2' || iban[0] == '5' || iban[0] == '6' || iban[0] == '8') {
+                        bicKey = iban[0].ToString();
+                    }
+                    else if (iban[0] == '3') {
+                        bicKey = iban[0].ToString() + iban[1].ToString();
+                    }
+                    else if (iban[0] == '4' || iban[0] == '7') {
+                        bicKey = iban[0].ToString() + iban[1].ToString() + iban[2].ToString();
+                    }
+                    else { //9
+                        Console.WriteLine("Invalid IBAN");
+                        return "0";
+                    }
+                    int.TryParse(bicKey, out bicKeyI);
+
+                    if (bicKeyI >= 470 && bicKeyI <= 478) {
+                        bicKeyI = 470;
+                    } else if ((bicKeyI == 715 || bicKeyI == 400 || bicKeyI == 402 || bicKeyI == 403) 
+                    || (bicKeyI >= 406 && bicKeyI <= 408)
+                    || (bicKeyI >= 410 && bicKeyI <= 412)
+                    || (bicKeyI >= 414 && bicKeyI <= 421)
+                    || (bicKeyI >= 423 && bicKeyI <= 432)
+                    || (bicKeyI >= 435 && bicKeyI <= 452)
+                    || (bicKeyI >= 454 && bicKeyI <= 464)
+                    || (bicKeyI >= 483 && bicKeyI <= 493)
+                    || (bicKeyI >= 495 && bicKeyI <= 496))
+                    {
+                        bicKeyI = 400;
+                    }
+                
+                    Console.WriteLine("IBAN is valid. Bic: {0}", bicList[bicKeyI]);
                 } else {
                     Console.WriteLine("IBAN is invalid.");
-                    Console.WriteLine(ibanChecker / 97);
+                    Console.WriteLine((int)(ibanChecker % 97));
                 }
-
-                Console.WriteLine(ibanTransfer);
 
             } else {
                 Console.WriteLine("Invalid IBAN.");
             }
 
-            
-
-
             return iban;
         }
 
-    
-    }
+
+     }
 }
