@@ -184,6 +184,135 @@ namespace eKoodi.Utilities.Test
             return iban;
         }
 
+        // Finnish reference number validator
+        public static string finnishReferencenumberValidator(string userInput) {
+            string input = userInput.Replace(" ", "");
+            int iInput;
+            int.TryParse(input, out iInput);
+
+            if(iInput > 0) {
+                string lastNumber = input.Substring(input.Length -1, 1);
+                string refBase = input.Substring(0, input.Length - 1);
+
+                int factor = 0;
+                int sum = 0;
+
+                for (int i = refBase.Length - 1; i >= 0; i--) {
+                    factor++;
+                    if (factor == 1) { // 7
+                        sum += (int)Char.GetNumericValue(refBase[i]) * 7;
+                    }
+                    else if (factor == 2) { // 3
+                        sum += (int)Char.GetNumericValue(refBase[i]) * 3;
+                    }
+                    else { // 1
+                        sum += (int)Char.GetNumericValue(refBase[i]);
+                        factor = 0;
+                    }
+                }
+
+                int nextTen;
+                if (sum % 10 != 0) {
+                    nextTen = (sum - sum % 10) + 10;
+                }
+                else {
+                    nextTen = sum;
+                }
+
+                int checkDigit = nextTen - sum;
+                if (checkDigit == 10) {
+                    checkDigit = 0;
+                }
+
+                if(checkDigit.ToString() == lastNumber) {
+                    int addSpace = 0;
+                    for (int i = input.Length; i >= 0; i--)
+                    {
+                        if (i > 0 && addSpace == 5)
+                        {
+                            input = input.Insert(i, " ");
+                            addSpace = 0;
+                        }
+                        addSpace++;
+                    }
+
+                    Console.WriteLine("{0} - OK", input);
+                } else {
+                    Console.WriteLine("Referencenumber Incorrect.");
+                }
+
+            }
+
+            return "";
+        }
+
+        // Finnish reference number Generator
+        public static string finnishReferencenumberGenerator(string userInput, string inputCount) {
+            string input = userInput.Replace(" ","");
+            int iInput;
+            int.TryParse(input, out iInput);
+            int iCount;
+            int.TryParse(inputCount, out iCount);
+            string inputBase = input;
+
+            if(iInput < 1){
+                Console.WriteLine("Invalid input, numbers only.");
+                return "";
+            }
+
+            for (int j = 1; j <= iCount; j++) {
+                int factor = 0;
+                int sum = 0;
+
+                input = inputBase + j.ToString();
+                for (int i = input.Length - 1; i >= 0; i--)
+                {
+                    factor++;
+                    if (factor == 1) { // 7
+                        sum += (int)Char.GetNumericValue(input[i]) * 7;
+                    }
+                    else if (factor == 2) { // 3
+                        sum += (int)Char.GetNumericValue(input[i]) * 3;
+                    }
+                    else { // 1
+                        sum += (int)Char.GetNumericValue(input[i]);
+                        factor = 0;
+                    }
+                }
+
+                int nextTen;
+                if (sum % 10 != 0) {
+                    nextTen = (sum - sum % 10) + 10;
+                }
+                else {
+                    nextTen = sum;
+                }
+
+                int checkDigit = nextTen - sum;
+                if (checkDigit == 10) {
+                    checkDigit = 0;
+                }
+                string referenceNumber = input + checkDigit.ToString();
+
+                int addSpace = 0;
+                for (int i = referenceNumber.Length; i >= 0; i--)
+                {
+                    if (i > 0 && addSpace == 5)
+                    {
+                        referenceNumber = referenceNumber.Insert(i, " ");
+                        addSpace = 0;
+                    }
+                    addSpace++;
+                }
+
+
+                Console.WriteLine(referenceNumber);
+            }
+
+
+            return "";
+        }
+
 
      }
 }
