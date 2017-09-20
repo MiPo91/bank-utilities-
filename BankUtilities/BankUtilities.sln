@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iban-calculator", "iban-cal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "finnish-referencenumber", "finnish-referencenumber\finnish-referencenumber.csproj", "{57E1B9F4-5657-4116-8A38-DF90055F53DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "international-referencenumber", "international-referencenumber\international-referencenumber.csproj", "{DE76010F-D077-4DDB-AAA4-971485897C64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{57E1B9F4-5657-4116-8A38-DF90055F53DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57E1B9F4-5657-4116-8A38-DF90055F53DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57E1B9F4-5657-4116-8A38-DF90055F53DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE76010F-D077-4DDB-AAA4-971485897C64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE76010F-D077-4DDB-AAA4-971485897C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE76010F-D077-4DDB-AAA4-971485897C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE76010F-D077-4DDB-AAA4-971485897C64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

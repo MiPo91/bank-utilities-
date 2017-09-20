@@ -236,9 +236,11 @@ namespace eKoodi.Utilities.Test
                         addSpace++;
                     }
 
-                    Console.WriteLine("{0} - OK", input);
+                    Console.WriteLine("Finnish referencenumber: {0}", input);
+                    return input;
                 } else {
-                    Console.WriteLine("Referencenumber Incorrect.");
+                    Console.WriteLine("Invalid finnish reference number.");
+                    return "invalid";
                 }
 
             }
@@ -254,9 +256,15 @@ namespace eKoodi.Utilities.Test
             int iCount;
             int.TryParse(inputCount, out iCount);
             string inputBase = input;
+            string referenceNumber = "";
 
             if(iInput < 1){
                 Console.WriteLine("Invalid input, numbers only.");
+                return "";
+            }
+
+            if (input.Length < 3 || input.Length > 19) {
+                Console.WriteLine("reference number base must be 4-19 characters.");
                 return "";
             }
 
@@ -292,13 +300,11 @@ namespace eKoodi.Utilities.Test
                 if (checkDigit == 10) {
                     checkDigit = 0;
                 }
-                string referenceNumber = input + checkDigit.ToString();
+                referenceNumber = input + checkDigit.ToString();
 
                 int addSpace = 0;
-                for (int i = referenceNumber.Length; i >= 0; i--)
-                {
-                    if (i > 0 && addSpace == 5)
-                    {
+                for (int i = referenceNumber.Length; i >= 0; i--) {
+                    if (i > 0 && addSpace == 5) {
                         referenceNumber = referenceNumber.Insert(i, " ");
                         addSpace = 0;
                     }
@@ -310,9 +316,80 @@ namespace eKoodi.Utilities.Test
             }
 
 
+            return referenceNumber;
+        }
+
+        // international reference number generator, based on finnish reference number
+        public static string internationalReferencenumberGenerator(string userInput) {
+            string input = userInput.Replace(" ", "").TrimStart('0');
+
+            long iInput;
+            long.TryParse(input, out iInput);
+
+            if(input == "invalid") {
+                return "";
+            }
+
+            if (iInput > 0 && input.Length <= 20) {
+                
+                string newReference = input + "271500";
+                long newRefInt;
+                long.TryParse(newReference, out newRefInt);
+
+                int modulo = (int)(newRefInt % 97);
+                string remainder = (98 - modulo).ToString();
+                if(remainder.Length < 2) {
+                    remainder = "0" + remainder;
+                }
+
+                string referenceNumber = "RF" + remainder + newReference;
+                referenceNumber = referenceNumber.Replace("271500", "");
+
+                int addSpace = 0;
+                for (int j = 0; j < referenceNumber.Length; j++) {
+                    if (j > 0 && addSpace == 4) {
+                        referenceNumber = referenceNumber.Insert(j, " ");
+                        addSpace = 0;
+                    }
+                    addSpace++;
+                }
+
+                Console.WriteLine("International referencenumber: {0}", referenceNumber);
+                
+            } else {
+                Console.WriteLine("Invalid input");
+            }
+            
+            return "";
+        }
+
+        // international reference number validator
+        public static string internationalReferencenumberValidator(string input) {
+            string userInput = input.Replace(" ","").TrimStart('0');
+            string firstPart = userInput.Substring(0 ,2);
+            string secondPart = userInput.Substring(2, 2);
+            string lastPart = userInput.Substring(4);
+
+            if(firstPart == "RF") {
+                string referenceNumberMachine = lastPart + "2715" + secondPart;
+                long refNumberInt;
+                long.TryParse(referenceNumberMachine, out refNumberInt);
+
+                int mod = (int)(refNumberInt % 97);
+
+                if(mod == 1) {
+                    Console.WriteLine("International Reference number is valid.");
+                } else {
+                    Console.WriteLine("International Reference number is invalid.");
+                }
+
+            } else {
+                Console.WriteLine("Invalid reference number.");
+            }
+
             return "";
         }
 
 
-     }
+        }
 }

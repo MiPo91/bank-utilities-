@@ -7,6 +7,7 @@ namespace finnish_referencenumber
     {
         static void Main(string[] args)
         {
+
             Console.WriteLine("Press 1 to Generate reference Numbers. Press 2 to validate reference Number.");
             string option = Console.ReadLine();
 
