@@ -248,7 +248,7 @@ namespace eKoodi.Utilities.Test
 
         // Finnish reference number Generator
         public static string finnishReferencenumberGenerator(string userInput, string inputCount) {
-            string input = userInput.Replace(" ","");
+            string input = userInput.Replace(" ","").TrimStart('0');
             int iInput;
             int.TryParse(input, out iInput);
             int iCount;
