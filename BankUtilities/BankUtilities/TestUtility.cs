@@ -186,7 +186,7 @@ namespace eKoodi.Utilities.Test
 
         // Finnish reference number validator
         public static string finnishReferencenumberValidator(string userInput) {
-            string input = userInput.Replace(" ", "");
+            string input = userInput.Replace(" ", "").TrimStart('0');
             int iInput;
             int.TryParse(input, out iInput);
 
