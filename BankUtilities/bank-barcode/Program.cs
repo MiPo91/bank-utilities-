@@ -8,20 +8,14 @@ namespace bank_barcode
         static void Main(string[] args)
         {
             Console.WriteLine("Anna tilinumero!");
-            string tilinumero = Console.ReadLine();
-            Console.WriteLine("Anna summa!");
-            string summa = Console.ReadLine();
-            Console.WriteLine("Anna viitenumero!");
-            string viite = Console.ReadLine();
-            Console.WriteLine("Anna eräpäivä! (dd.mm.yyyy");
-            string erapaiva = Console.ReadLine();
+            string iban = Console.ReadLine(); //FI58 1017 1000 0001 22
+            Console.WriteLine("Anna summa!"); //482,99
+            string value = Console.ReadLine();
+            Console.WriteLine("Anna viitenumero!"); //RF06 5595 8224 3294 671
+            string referenceNumber = Console.ReadLine();
+            Console.WriteLine("Anna eräpäivä! (dd.mm.yyyy"); //31.1.2010
+            string date = Console.ReadLine();
 
-
-
-            string iban = "FI58 1017 1000 0001 22";
-            string value = "482,99";
-            string referenceNumber = "RF06 5595 8224 3294 671";
-            string date = "31.1.2010";
 
             string validIban = TestUtility.ibanValidator(iban);
 
