@@ -414,8 +414,16 @@ namespace eKoodi.Utilities.Test
             string cents;
             // split string to euros & cents and testing if they are valid values
             string[] sum = sumImput.Replace(".", ",").Replace(" ", "").Split(',');
-            euros = sum[0];
-            cents = sum[1];
+            if (sum.Length == 2) {
+                euros = sum[0];
+                cents = sum[1];
+            } else if(sum.Length == 1) {
+                euros = sum[0];
+                cents = "0";
+            } else {
+                euros = "0";
+                cents = "0";
+            }
 
             int testString;
             if(!int.TryParse(euros, out testString)) {
