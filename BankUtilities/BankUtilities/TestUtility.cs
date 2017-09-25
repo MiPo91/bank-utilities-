@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace eKoodi.Utilities.Test
 {
@@ -104,6 +105,7 @@ namespace eKoodi.Utilities.Test
 
         public static string ibanValidator(string userInput) {
             string iban = userInput.Replace(" ","");
+            string returnData = "";
             string bicKey;
             int bicKeyI;
             var bicList = new Dictionary<int, string>
@@ -170,25 +172,28 @@ namespace eKoodi.Utilities.Test
                     {
                         bicKeyI = 400;
                     }
-                
+
+                    returnData = iban;
                     Console.WriteLine("IBAN is valid. Bic: {0}", bicList[bicKeyI]);
                 } else {
                     Console.WriteLine("IBAN is invalid.");
                     Console.WriteLine((int)(ibanChecker % 97));
+                    returnData = "invalid";
                 }
 
             } else {
                 Console.WriteLine("Invalid IBAN.");
+                returnData = "invalid";
             }
 
-            return iban;
+            return returnData;
         }
 
         // Finnish reference number validator
         public static string finnishReferencenumberValidator(string userInput) {
             string input = userInput.Replace(" ", "").TrimStart('0');
-            int iInput;
-            int.TryParse(input, out iInput);
+            long iInput;
+            long.TryParse(input, out iInput);
 
             if(iInput > 0) {
                 string lastNumber = input.Substring(input.Length -1, 1);
@@ -244,7 +249,7 @@ namespace eKoodi.Utilities.Test
                 }
 
             }
-
+            
             return "";
         }
 
@@ -370,24 +375,125 @@ namespace eKoodi.Utilities.Test
             string secondPart = userInput.Substring(2, 2);
             string lastPart = userInput.Substring(4);
 
+            string returnData = "";
             if(firstPart == "RF") {
                 string referenceNumberMachine = lastPart + "2715" + secondPart;
-                long refNumberInt;
-                long.TryParse(referenceNumberMachine, out refNumberInt);
+                BigInteger refNumberInt;
+                BigInteger.TryParse(referenceNumberMachine, out refNumberInt);
 
                 int mod = (int)(refNumberInt % 97);
 
                 if(mod == 1) {
                     Console.WriteLine("International Reference number is valid.");
+                    returnData = userInput;
                 } else {
                     Console.WriteLine("International Reference number is invalid.");
+                    returnData = "invalid";
                 }
 
             } else {
                 Console.WriteLine("Invalid reference number.");
+                returnData = "invalid";
             }
 
-            return "";
+            return returnData;
+        }
+
+        public static string barcode(string ibanInput, string sumImput, string referenceInput, string dateInput) {
+            string barcode = "";
+            string iban = ibanInput;
+            
+            string referencecode = referenceInput.Replace(" ", "");
+            string[] date = dateInput.Split('.');
+
+            if(iban == "invalid" || referencecode == "invalid") {
+                return "Invalid inputs.";
+            }
+
+            string euros;
+            string cents;
+            // split string to euros & cents and testing if they are valid values
+            string[] sum = sumImput.Replace(".", ",").Replace(" ", "").Split(',');
+            euros = sum[0];
+            cents = sum[1];
+
+            int testString;
+            if(!int.TryParse(euros, out testString)) {
+                euros = "0";
+            }
+            if (!int.TryParse(cents, out testString)) {
+                cents = "0";
+            }
+
+            // versio check
+            string versio;
+            if(referencecode.Substring(0, 2) == "RF") {
+                versio = "5";
+            } else {
+                versio = "4";
+            }
+
+            string reserve = "000";
+
+            string validDate;
+
+            //date check & values
+            DateTime temp;
+            if (!DateTime.TryParse(dateInput, out temp)) {
+                validDate = "000000";
+            } else {
+                string day = date[0];
+                string month = date[1];
+                string year = date[2].Substring(2);
+
+                day = day.PadLeft(2, '0');
+                month = month.PadLeft(2, '0');
+
+                validDate = year + month + day;
+            }
+
+            string ibanEnd = iban.Substring(iban.Length -2, 2);
+            string ibanStart = iban.Substring(0, iban.Length - 4);
+
+            iban = ibanEnd + ibanStart.PadLeft(14, '0');
+
+            cents = cents.PadLeft(2, '0');
+            euros = euros.PadLeft(6, '0');
+
+            if (versio == "5") {
+                reserve = "";
+                string referenceNumberStart = referencecode.Substring(2, 2);
+                string referenceNumberEnd = referencecode.Substring(4);
+
+                referencecode = referenceNumberStart + referenceNumberEnd.PadLeft(21, '0');
+            }
+            else {
+                referencecode = referencecode.PadLeft(20, '0');
+            }
+
+            barcode = versio + iban + euros + cents + reserve + referencecode + validDate;
+
+            string[] split = new string[barcode.Length / 2 + (barcode.Length % 2 == 0 ? 0 : 1)];
+
+            for (int i = 0; i < split.Length; i++) {
+                split[i] = barcode.Substring(i * 2, i * 2 + 2 > barcode.Length ? 1 : 2);
+            }
+
+            
+            int result = 105;
+            string barcodeText = "";
+            for(int i = 0; i < 27;i++) {
+                int pairDigits;
+                int.TryParse(split[i], out pairDigits);
+                result += pairDigits * (i + 1);
+                barcodeText += " " + split[i];
+            }
+            int mod = result % 103;
+
+            barcode = "[105]" + barcodeText + " ["+ mod.ToString()+"] [stop]";
+
+
+            return barcode;
         }
 
 

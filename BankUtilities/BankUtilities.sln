@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bban-validator", "bban-vali
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iban-calculator", "iban-calculator\iban-calculator.csproj", "{767A0100-27B4-49B3-9D3E-9F0FFAC00194}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "finnish-referencenumber", "finnish-referencenumber\finnish-referencenumber.csproj", "{57E1B9F4-5657-4116-8A38-DF90055F53DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "finnish-referencenumber", "finnish-referencenumber\finnish-referencenumber.csproj", "{57E1B9F4-5657-4116-8A38-DF90055F53DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "international-referencenumber", "international-referencenumber\international-referencenumber.csproj", "{DE76010F-D077-4DDB-AAA4-971485897C64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "international-referencenumber", "international-referencenumber\international-referencenumber.csproj", "{DE76010F-D077-4DDB-AAA4-971485897C64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bank-barcode", "bank-barcode\bank-barcode.csproj", "{F4D814E4-0ED7-4ECE-B3AF-A8008B395460}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{DE76010F-D077-4DDB-AAA4-971485897C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE76010F-D077-4DDB-AAA4-971485897C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE76010F-D077-4DDB-AAA4-971485897C64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4D814E4-0ED7-4ECE-B3AF-A8008B395460}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4D814E4-0ED7-4ECE-B3AF-A8008B395460}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4D814E4-0ED7-4ECE-B3AF-A8008B395460}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4D814E4-0ED7-4ECE-B3AF-A8008B395460}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
