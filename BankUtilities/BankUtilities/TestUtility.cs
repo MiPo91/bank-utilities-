@@ -7,7 +7,7 @@ namespace eKoodi.Utilities.Test
     public static class TestUtility
     {
         //BBAN Validator
-        public static long bban(string input) {
+        public static long Bban(string input) {
             string[] inputSplit = input.Split('-');
             
             string userInput = input.Replace("-", "");
@@ -83,7 +83,7 @@ namespace eKoodi.Utilities.Test
         }
 
         // IBAN Muunnin
-        public static string ibanTransfer(long bban) {
+        public static string IbanTransfer(long bban) {
             string iban = "";
             string bbanString = bban.ToString();
 
@@ -103,7 +103,7 @@ namespace eKoodi.Utilities.Test
             return iban;
         }
 
-        public static string ibanValidator(string userInput) {
+        public static string IbanValidator(string userInput) {
             string iban = userInput.Replace(" ","");
             string returnData = "";
             string bicKey;
@@ -190,7 +190,7 @@ namespace eKoodi.Utilities.Test
         }
 
         // Finnish reference number validator
-        public static string finnishReferencenumberValidator(string userInput) {
+        public static string FinnishReferencenumberValidator(string userInput) {
             string input = userInput.Replace(" ", "").TrimStart('0');
             long iInput;
             long.TryParse(input, out iInput);
@@ -254,7 +254,7 @@ namespace eKoodi.Utilities.Test
         }
 
         // Finnish reference number Generator
-        public static string finnishReferencenumberGenerator(string userInput, string inputCount) {
+        public static string FinnishReferencenumberGenerator(string userInput, string inputCount) {
             string input = userInput.Replace(" ","").TrimStart('0');
             int iInput;
             int.TryParse(input, out iInput);
@@ -325,7 +325,7 @@ namespace eKoodi.Utilities.Test
         }
 
         // international reference number generator, based on finnish reference number
-        public static string internationalReferencenumberGenerator(string userInput) {
+        public static string InternationalReferencenumberGenerator(string userInput) {
             string input = userInput.Replace(" ", "").TrimStart('0');
 
             long iInput;
@@ -369,7 +369,7 @@ namespace eKoodi.Utilities.Test
         }
 
         // international reference number validator
-        public static string internationalReferencenumberValidator(string input) {
+        public static string InternationalReferencenumberValidator(string input) {
             string userInput = input.Replace(" ","").TrimStart('0');
             string firstPart = userInput.Substring(0 ,2);
             string secondPart = userInput.Substring(2, 2);
@@ -399,7 +399,7 @@ namespace eKoodi.Utilities.Test
             return returnData;
         }
 
-        public static string barcode(string ibanInput, string sumImput, string referenceInput, string dateInput) {
+        public static string Barcode(string ibanInput, string sumImput, string referenceInput, string dateInput) {
             string barcode = "";
             string iban = ibanInput;
             

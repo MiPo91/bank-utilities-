@@ -10,18 +10,15 @@ namespace iban_calculator
             string userInput = Console.ReadLine();
 
             if (userInput.Length == 18) {
-                TestUtility.ibanValidator(userInput);
+                TestUtility.IbanValidator(userInput);
             } else {
-                long bban = TestUtility.bban(userInput);
+                long bban = TestUtility.Bban(userInput);
 
                 if (bban != 0) {
-                    var testi = TestUtility.ibanTransfer(bban);
-                    TestUtility.ibanValidator(testi);
+                    var testi = TestUtility.IbanTransfer(bban);
+                    TestUtility.IbanValidator(testi);
                 }
             }
-
-
-
             Console.ReadKey();
         }
     }

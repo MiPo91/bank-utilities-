@@ -17,19 +17,19 @@ namespace international_referencenumber
                 Console.WriteLine("Enter new base for reference number.");
                 string userInput = Console.ReadLine();
 
-                string finnishRefNumber = TestUtility.finnishReferencenumberGenerator(userInput, "1");
-                TestUtility.internationalReferencenumberGenerator(finnishRefNumber);
+                string finnishRefNumber = TestUtility.FinnishReferencenumberGenerator(userInput, "1");
+                TestUtility.InternationalReferencenumberGenerator(finnishRefNumber);
             } else if(option == "2") {
                 Console.WriteLine("Enter valid finnish reference number.");
                 string userInput = Console.ReadLine();
 
-                string finnishRefNumber = TestUtility.finnishReferencenumberValidator(userInput);
-                TestUtility.internationalReferencenumberGenerator(finnishRefNumber);
+                string finnishRefNumber = TestUtility.FinnishReferencenumberValidator(userInput);
+                TestUtility.InternationalReferencenumberGenerator(finnishRefNumber);
             } else {
                 Console.WriteLine("Enter International referencenumber");
                 string userInput = Console.ReadLine();
 
-                TestUtility.internationalReferencenumberValidator(userInput);
+                TestUtility.InternationalReferencenumberValidator(userInput);
             }
 
             Console.ReadKey();

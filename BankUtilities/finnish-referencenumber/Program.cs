@@ -14,14 +14,14 @@ namespace finnish_referencenumber
             if (option == "2") {
                 Console.WriteLine("Input reference number for validation.");
                 string userInput = Console.ReadLine();
-                TestUtility.finnishReferencenumberValidator(userInput);
+                TestUtility.FinnishReferencenumberValidator(userInput);
             } else {
                 Console.WriteLine("Input base for Finnish reference number:");
                 string userInput = Console.ReadLine();
                 Console.WriteLine("Input reference number count:");
                 string inputCount = Console.ReadLine();
 
-                TestUtility.finnishReferencenumberGenerator(userInput, inputCount);
+                TestUtility.FinnishReferencenumberGenerator(userInput, inputCount);
             }
 
             Console.ReadKey();

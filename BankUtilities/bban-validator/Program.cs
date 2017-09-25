@@ -8,7 +8,7 @@ namespace bban_validator
         static void Main(string[] args)
         {
             string userInput = Console.ReadLine();
-            TestUtility.bban(userInput);
+            TestUtility.Bban(userInput);
 
             Console.ReadKey();
 

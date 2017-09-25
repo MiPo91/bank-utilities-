@@ -17,16 +17,16 @@ namespace bank_barcode
             string date = Console.ReadLine();
 
 
-            string validIban = TestUtility.ibanValidator(iban);
+            string validIban = TestUtility.IbanValidator(iban);
 
             string validReferenceNumber;
             if (referenceNumber.Substring(0, 2) == "RF") {
-                validReferenceNumber = TestUtility.internationalReferencenumberValidator(referenceNumber);
+                validReferenceNumber = TestUtility.InternationalReferencenumberValidator(referenceNumber);
             } else {
-                validReferenceNumber = TestUtility.finnishReferencenumberValidator(referenceNumber);
+                validReferenceNumber = TestUtility.FinnishReferencenumberValidator(referenceNumber);
             }
             
-            string barcode = TestUtility.barcode(validIban, value, validReferenceNumber, date);
+            string barcode = TestUtility.Barcode(validIban, value, validReferenceNumber, date);
 
             Console.WriteLine(barcode);
 
